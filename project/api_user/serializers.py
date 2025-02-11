@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from project.api_user.models import UserTinder 
+from project.api_user.models import UserTinder, ProjectGroup
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)  
@@ -22,3 +22,8 @@ class UserTinderSerializer(serializers.ModelSerializer):
         model = UserTinder
         fields = ['id', 'email', 'name', 'is_active', 'is_staff', 'created']
         read_only_fields = ['id', 'created']
+        
+class ProjectGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectGroup
+        fields = ['id', 'name', 'description', 'created_at', 'updated_at', 'created_by']
