@@ -1,10 +1,12 @@
 from rest_framework import generics
 from rest_framework import viewsets
-from project.api_user.models import UserTinder, ProjectGroup
+from project.api_user.models import UserTinder
 from project.api_user.serializers import UserTinderSerializer
 from rest_framework import generics, permissions
-from .serializers import UserRegistrationSerializer, ProjectGroupSerializer
+from .serializers import UserRegistrationSerializer
 from rest_framework.permissions import IsAuthenticated
+from groups.models import ProjectGroup
+from groups.serializers import ProjectGroupSerializer
 
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
@@ -17,11 +19,11 @@ class UserTinderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView)
     queryset = UserTinder.objects.all()
     serializer_class = UserTinderSerializer
     
-class ProjectGroupView(viewsets.ModelViewSet):
-    queryset = ProjectGroup.objects.all()
-    serializer_class = ProjectGroupSerializer
-    permission_classes = [IsAuthenticated]  # Garante que apenas usuários autenticados possam criar grupos
+# class ProjectGroupView(viewsets.ModelViewSet):
+#     queryset = ProjectGroup.objects.all()
+#     serializer_class = ProjectGroupSerializer
+#     permission_classes = [IsAuthenticated]  # Garante que apenas usuários autenticados possam criar grupos
 
-    def perform_create(self, serializer):
-        # Define o `created_by` como o usuário logado
-        serializer.save(created_by=self.request.user)
+#     def perform_create(self, serializer):
+#         # Define o `created_by` como o usuário logado
+#         serializer.save(created_by=self.request.user)

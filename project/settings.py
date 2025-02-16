@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'project.api_user',
+    'posts',
+    'groups'
 
 ]
 REST_FRAMEWORK = {
