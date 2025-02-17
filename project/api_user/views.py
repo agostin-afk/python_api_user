@@ -32,7 +32,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models import UserTinder  # Certifique-se de importar o modelo UserTinder corretamente
+from .models import UserTinder
 
 @api_view(['POST'])
 def user_login(request):
@@ -54,14 +54,14 @@ def user_login(request):
             user = authenticate(username=username, password=password)
 
         if user:
-            token, _ = Token.objects.get_or_create(user=user)  # Agora isso deve funcionar
+            token, _ = Token.objects.get_or_create(user=user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def user_logout(request):
-    # Obtém o token do usuário, se existir
+
     token = getattr(request.user, 'auth_token', None)
     
     if token:
@@ -69,11 +69,3 @@ def user_logout(request):
         return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
     
     return Response({'error': 'User is not logged in or token does not exist.'}, status=status.HTTP_400_BAD_REQUEST)
-# class ProjectGroupView(viewsets.ModelViewSet):
-#     queryset = ProjectGroup.objects.all()
-#     serializer_class = ProjectGroupSerializer
-#     permission_classes = [IsAuthenticated]  # Garante que apenas usuários autenticados possam criar grupos
-
-#     def perform_create(self, serializer):
-#         # Define o `created_by` como o usuário logado
-#         serializer.save(created_by=self.request.user)
